@@ -1,4 +1,4 @@
-pub struct  Tokenizer {}
+pub struct Tokenizer {}
 
 impl Tokenizer {
     /* Converts text to vector of tokens. Tokens are either letter or number */
