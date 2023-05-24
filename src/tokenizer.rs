@@ -1,8 +1,12 @@
 pub struct Tokenizer {}
 
 impl Tokenizer {
+    pub fn new() -> Self {
+        Tokenizer {}
+    }
+
     /* Converts text to vector of tokens. Tokens are either letter or number */
-    pub fn tokenize(text: &str) -> Vec<String> {
+    pub fn tokenize(self, text: &str) -> Vec<String> {
         let clean_string = text
             .chars()
             .filter(|c| !c.is_ascii_punctuation())
@@ -22,13 +26,11 @@ mod tokenizer_tests {
     #[test]
     fn test_tokenize() {
         let text = "Hello #{$}! I'm test suite & I ... contain number 32!!";
-        let res = Tokenizer::tokenize(&text);
+        let tokenizer = Tokenizer::new();
+        let res = tokenizer.tokenize(&text);
         let expected = vec![
-            "Hello", "I'm", "test", "suite", "I", "contain", "number", "32",
+            "Hello", "Im", "test", "suite", "I", "contain", "number", "32",
         ];
-        assert!(
-            res.len() != expected.len() || res != expected,
-            "tokenization failed"
-        )
+        assert_eq!(res, expected, "tokenization failed")
     }
 }
