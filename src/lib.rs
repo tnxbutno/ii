@@ -1,3 +1,3 @@
-mod tokenizer;
-mod filters;
-mod index;
+pub mod tokenizer;
+pub mod filters;
+pub mod index;
