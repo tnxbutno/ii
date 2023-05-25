@@ -6,7 +6,7 @@ impl Tokenizer {
     }
 
     /* Converts text to vector of tokens. Tokens are either letter or number */
-    pub fn tokenize(self, text: &str) -> Vec<String> {
+    pub fn tokenize(&self, text: &str) -> Vec<String> {
         let clean_string = text
             .chars()
             .filter(|c| !c.is_ascii_punctuation())
