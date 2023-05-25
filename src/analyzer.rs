@@ -21,3 +21,16 @@ impl Analyzer {
         self.filters.stemming(stopped)
     }
 }
+
+#[cfg(test)]
+mod analyzer_tests {
+    use crate::analyzer::Analyzer;
+
+    #[test]
+    fn test_analyze() {
+        let analyzer = Analyzer::new();
+        let text = "The rain, rain poured and poured, creating a rhythmic symphony of droplets on the windowpane!";
+        let res = analyzer.analyze(text);
+        assert_eq!(res.len(), 7, "text analyze failed")
+    }
+}
