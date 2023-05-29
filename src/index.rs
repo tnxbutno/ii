@@ -1,4 +1,5 @@
 use crate::analyzer::Analyzer;
+use crate::filters::Language;
 use std::collections::{HashMap, HashSet};
 
 pub struct InvertedIndex {
@@ -11,12 +12,18 @@ pub struct Document {
     text: String,
 }
 
+impl Default for InvertedIndex {
+    fn default() -> Self {
+        Self::new(Language::English)
+    }
+}
+
 impl InvertedIndex {
     // Creates empty inverted index
-    pub fn new() -> Self {
+    pub fn new(language: Language) -> Self {
         InvertedIndex {
             idx: HashMap::new(),
-            analyzer: Analyzer::new(),
+            analyzer: Analyzer::new(language),
         }
     }
 
@@ -61,7 +68,7 @@ mod index_tests {
 
     #[test]
     fn add_test() {
-        let mut idx = InvertedIndex::new();
+        let mut idx = InvertedIndex::default();
         let doc = vec![
             Document {
                 id: 1,

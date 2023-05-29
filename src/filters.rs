@@ -122,7 +122,7 @@ impl Filters {
     where
         I: Iterator<Item = String> + 'a,
     {
-        tokens.map(|t| match self.stemmer.stem(&*t) {
+        tokens.map(|t| match self.stemmer.stem(&t) {
             Cow::Owned(stemmed_str) => stemmed_str,
             Cow::Borrowed(stemmed_str) => stemmed_str.to_string(),
         })

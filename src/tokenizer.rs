@@ -1,5 +1,11 @@
 pub struct Tokenizer {}
 
+impl Default for Tokenizer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Tokenizer {
     pub fn new() -> Self {
         Tokenizer {}
