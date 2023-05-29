@@ -31,7 +31,7 @@ pub enum Language {
 
 impl Language {
     /// Get algorithm matching variant of language
-    fn get(self) -> Algorithm {
+    fn get(&self) -> Algorithm {
         use self::Language::*;
         match self {
             Arabic => Algorithm::Arabic,
@@ -54,6 +54,35 @@ impl Language {
             Turkish => Algorithm::Turkish,
         }
     }
+
+    fn get_stopwords(&self) -> HashSet<String> {
+        use self::Language::*;
+        use crate::stopwords;
+        let stop_words = match self {
+            Arabic => stopwords::ARABIC,
+            Danish => stopwords::DANISH,
+            Dutch => stopwords::DUTCH,
+            English => stopwords::ENGLISH,
+            Finnish => stopwords::FINISH,
+            French => stopwords::FRENCH,
+            German => stopwords::GERMAN,
+            Greek => stopwords::GREEK,
+            Hungarian => stopwords::HUNGARIAN,
+            Italian => stopwords::ITALIAN,
+            Norwegian => stopwords::NORWEGIAN,
+            Portuguese => stopwords::PORTUGUESE,
+            Romanian => stopwords::ROMANIAN,
+            Russian => stopwords::RUSSIAN,
+            Spanish => stopwords::SPANISH,
+            Swedish => stopwords::SWEDISH,
+            Tamil => stopwords::TAMIL,
+            Turkish => stopwords::TURKISH,
+        };
+        stop_words
+            .iter()
+            .map(|&word| word.to_owned())
+            .collect::<HashSet<String>>()
+    }
 }
 
 impl Default for Filters {
@@ -64,16 +93,8 @@ impl Default for Filters {
 
 impl Filters {
     pub fn new(language: Language) -> Self {
-        let stop_words_list: HashSet<String> = vec![
-            "a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into",
-            "is", "it", "no", "not", "of", "on", "or", "such", "that", "the", "their", "then",
-            "there", "these", "they", "this", "to", "was", "will", "with",
-        ]
-        .into_iter()
-        .map(str::to_string)
-        .collect();
         Filters {
-            stop_words_list,
+            stop_words_list: language.get_stopwords(),
             stemmer: Stemmer::create(language.get()),
         }
     }
@@ -110,7 +131,8 @@ impl Filters {
 
 #[cfg(test)]
 mod filters_tests {
-    use crate::filters::{Filters, Language};
+    use crate::filters::Filters;
+    use crate::filters::Language::Russian;
 
     #[test]
     fn test_lowercase() {
@@ -125,7 +147,7 @@ mod filters_tests {
     }
 
     #[test]
-    fn test_stop_words() {
+    fn test_stop_words_default() {
         let filter = Filters::default();
         let tokens = vec!["as", "stay", "a", "will"]
             .into_iter()
@@ -134,6 +156,18 @@ mod filters_tests {
         let res: Vec<String> = filter.stop_words(tokens).collect();
         let expected = vec!["stay"];
         assert_eq!(res, expected, "stop words failed")
+    }
+
+    #[test]
+    fn test_stop_words_custom_lang() {
+        let filter = Filters::new(Russian);
+        let tokens = vec!["я", "бы", "тут", "остался"]
+            .into_iter()
+            .map(str::to_string);
+
+        let res: Vec<String> = filter.stop_words(tokens).collect();
+        let expected = vec!["остался"];
+        assert_eq!(res, expected, "stop words for custom lang failed")
     }
 
     #[test]
@@ -150,13 +184,13 @@ mod filters_tests {
 
     #[test]
     fn test_stemming_custom_lang() {
-        let filter = Filters::new(Language::Russian);
+        let filter = Filters::new(Russian);
         let tokens = vec!["работал", "работаю", "работает", "работает"]
             .into_iter()
             .map(str::to_string);
 
         let res: Vec<String> = filter.stemming(tokens).collect();
         let expected = vec!["работа", "работа", "работа", "работа"];
-        assert_eq!(res, expected, "stemming failed")
+        assert_eq!(res, expected, "stemming custom lang failed")
     }
 }
