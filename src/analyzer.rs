@@ -31,7 +31,6 @@ mod analyzer_tests {
         let analyzer = Analyzer::new();
         let text = "The rain, rain poured and poured, creating a rhythmic symphony of droplets on the windowpane!";
         let res: Vec<String> = analyzer.analyze(text);
-        dbg!(&res);
         assert_eq!(res.len(), 7, "text analyze failed")
     }
 }
