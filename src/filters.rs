@@ -63,7 +63,7 @@ impl Language {
             Danish => stopwords::DANISH,
             Dutch => stopwords::DUTCH,
             English => stopwords::ENGLISH,
-            Finnish => stopwords::FINISH,
+            Finnish => stopwords::FINNISH,
             French => stopwords::FRENCH,
             German => stopwords::GERMAN,
             Greek => stopwords::GREEK,
