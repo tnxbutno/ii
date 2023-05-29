@@ -1,4 +1,4 @@
-use crate::filters::Filters;
+use crate::filters::{Filters, Language};
 use crate::tokenizer::Tokenizer;
 
 pub struct Analyzer {
@@ -10,7 +10,7 @@ impl Analyzer {
     pub fn new() -> Self {
         Analyzer {
             tokenizer: Tokenizer::new(),
-            filters: Filters::new(),
+            filters: Filters::new(Language::English),
         }
     }
 
