@@ -6,16 +6,14 @@ impl Tokenizer {
     }
 
     /* Converts text to vector of tokens. Tokens are either letter or number */
-    pub fn tokenize(&self, text: &str) -> Vec<String> {
-        let clean_string = text
-            .chars()
+    pub fn tokenize(&self, text: &str) -> impl Iterator<Item = String> {
+        text.chars()
             .filter(|c| !c.is_ascii_punctuation())
-            .collect::<String>();
-
-        clean_string
+            .collect::<String>()
             .split_whitespace()
             .map(str::to_string)
-            .collect()
+            .collect::<Vec<String>>()
+            .into_iter()
     }
 }
 
@@ -27,7 +25,7 @@ mod tokenizer_tests {
     fn test_tokenize() {
         let text = "Hello #{$}! I'm test suite & I ... contain number 32!!";
         let tokenizer = Tokenizer::new();
-        let res = tokenizer.tokenize(&text);
+        let res: Vec<String> = tokenizer.tokenize(&text).collect();
         let expected = vec![
             "Hello", "Im", "test", "suite", "I", "contain", "number", "32",
         ];
