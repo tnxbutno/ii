@@ -37,7 +37,7 @@ mod analyzer_tests {
         let analyzer = Analyzer::default();
         let text = "The rain, rain poured and poured, creating a rhythmic symphony of droplets on the windowpane!";
         let res: Vec<String> = analyzer.analyze(text);
-        assert_eq!(res.len(), 7, "text analyze failed")
+        assert_eq!(res.len(), 7, "text analyze failed");
     }
 
     #[test]
@@ -45,6 +45,6 @@ mod analyzer_tests {
         let analyzer = Analyzer::new(Language::Russian);
         let text = "Дождь, дождь лил и лил, создавая на стекле окона ритмичную симфонию капель!";
         let res: Vec<String> = analyzer.analyze(text);
-        assert_eq!(res.len(), 8, "custom lang text analyze failed")
+        assert_eq!(res.len(), 8, "custom lang text analyze failed");
     }
 }

@@ -52,9 +52,9 @@ impl InvertedIndex {
                 None => {}
                 Some(ids) => {
                     if result.is_empty() {
-                        result = ids.clone()
+                        result = ids.clone();
                     }
-                    result = result.intersection(ids).cloned().collect()
+                    result = result.intersection(ids).copied().collect();
                 }
             }
         }
@@ -82,6 +82,6 @@ mod index_tests {
         ];
         idx.add(&doc);
         let result = idx.search("dogs in summer");
-        assert_eq!(result.get(&2), Some(&2), "smoke test for index failed")
+        assert_eq!(result.get(&2), Some(&2), "smoke test for index failed");
     }
 }

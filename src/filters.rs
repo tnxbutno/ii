@@ -153,7 +153,7 @@ mod filters_tests {
 
         let res: Vec<String> = filter.stop_words(tokens).collect();
         let expected = ["stay"];
-        assert_eq!(res, expected, "stop words failed")
+        assert_eq!(res, expected, "stop words failed");
     }
 
     #[test]
@@ -165,7 +165,7 @@ mod filters_tests {
 
         let res: Vec<String> = filter.stop_words(tokens).collect();
         let expected = ["остался"];
-        assert_eq!(res, expected, "stop words for custom lang failed")
+        assert_eq!(res, expected, "stop words for custom lang failed");
     }
 
     #[test]
@@ -177,7 +177,7 @@ mod filters_tests {
 
         let res: Vec<String> = filter.stemming(tokens).collect();
         let expected = ["work", "work", "work", "work"];
-        assert_eq!(res, expected, "stemming failed")
+        assert_eq!(res, expected, "stemming failed");
     }
 
     #[test]
@@ -189,6 +189,6 @@ mod filters_tests {
 
         let res: Vec<String> = filter.stemming(tokens).collect();
         let expected = ["работа", "работа", "работа", "работа"];
-        assert_eq!(res, expected, "stemming custom lang failed")
+        assert_eq!(res, expected, "stemming custom lang failed");
     }
 }

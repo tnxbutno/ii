@@ -1,4 +1,4 @@
-use criterion::{criterion_group, criterion_main, Criterion, BenchmarkId};
+use criterion::{criterion_group, criterion_main, Criterion};
 use inverted_index::index::{Document, InvertedIndex};
 
 const TEXT: &str = include_str!("war_and_peace.txt");
@@ -36,11 +36,7 @@ pub fn search_index_benchmark(c: &mut Criterion) {
     let mut index = InvertedIndex::default();
     index.add(&docs);
 
-    c.bench_function("search-in-index", |b| {
-        b.iter(|| {
-            index.search("make peace")
-        })
-    });
+    c.bench_function("search-in-index", |b| b.iter(|| index.search("make peace")));
 }
 
 criterion_group!(benches, add_index_benchmark, search_index_benchmark);

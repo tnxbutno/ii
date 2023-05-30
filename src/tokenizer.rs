@@ -31,10 +31,10 @@ mod tokenizer_tests {
     fn test_tokenize() {
         let text = "Hello #{$}! I'm test suite & I ... contain number 32!!";
         let tokenizer = Tokenizer::new();
-        let res: Vec<String> = tokenizer.tokenize(&text).collect();
+        let res: Vec<String> = tokenizer.tokenize(text).collect();
         let expected = [
             "Hello", "Im", "test", "suite", "I", "contain", "number", "32",
         ];
-        assert_eq!(res, expected, "tokenization failed")
+        assert_eq!(res, expected, "tokenization failed");
     }
 }
