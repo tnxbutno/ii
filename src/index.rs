@@ -7,9 +7,10 @@ pub struct InvertedIndex {
     analyzer: Analyzer,
 }
 
+#[derive(Clone)]
 pub struct Document {
-    id: u64,
-    text: String,
+    pub id: u64,
+    pub text: String,
 }
 
 impl Default for InvertedIndex {
@@ -28,7 +29,7 @@ impl InvertedIndex {
     }
 
     // Index document
-    pub fn add(&mut self, docs: Vec<Document>) {
+    pub fn add(&mut self, docs: &[Document]) {
         for doc in docs.iter() {
             for token in self.analyzer.analyze(doc.text.as_str()) {
                 match self.idx.get_mut(&*token) {
@@ -69,7 +70,7 @@ mod index_tests {
     #[test]
     fn add_test() {
         let mut idx = InvertedIndex::default();
-        let doc = vec![
+        let doc = [
             Document {
                 id: 1,
                 text: "The quick brown fox jumped over the lazy dog".to_string(),
@@ -79,7 +80,7 @@ mod index_tests {
                 text: "Quick brown foxes leap over lazy dogs in summer".to_string(),
             },
         ];
-        idx.add(doc);
+        idx.add(&doc);
         let result = idx.search("dogs in summer");
         assert_eq!(result.get(&2), Some(&2), "smoke test for index failed")
     }

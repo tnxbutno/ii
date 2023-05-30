@@ -32,7 +32,7 @@ mod tokenizer_tests {
         let text = "Hello #{$}! I'm test suite & I ... contain number 32!!";
         let tokenizer = Tokenizer::new();
         let res: Vec<String> = tokenizer.tokenize(&text).collect();
-        let expected = vec![
+        let expected = [
             "Hello", "Im", "test", "suite", "I", "contain", "number", "32",
         ];
         assert_eq!(res, expected, "tokenization failed")

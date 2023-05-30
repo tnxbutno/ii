@@ -137,60 +137,58 @@ mod filters_tests {
     #[test]
     fn test_lowercase() {
         let filter = Filters::default();
-        let tokens = vec!["HELLO", "THIS", "IS", "PATRICK"]
+        let tokens = ["HELLO", "THIS", "IS", "PATRICK"]
             .into_iter()
             .map(str::to_string);
 
         let res: Vec<String> = filter.lower_case(tokens).collect();
-        let expected = vec!["hello", "this", "is", "patrick"];
+        let expected = ["hello", "this", "is", "patrick"];
         assert_eq!(res, expected, "lowering case failed");
     }
 
     #[test]
     fn test_stop_words_default() {
         let filter = Filters::default();
-        let tokens = vec!["as", "stay", "a", "will"]
-            .into_iter()
-            .map(str::to_string);
+        let tokens = ["as", "stay", "a", "will"].into_iter().map(str::to_string);
 
         let res: Vec<String> = filter.stop_words(tokens).collect();
-        let expected = vec!["stay"];
+        let expected = ["stay"];
         assert_eq!(res, expected, "stop words failed")
     }
 
     #[test]
     fn test_stop_words_custom_lang() {
         let filter = Filters::new(Russian);
-        let tokens = vec!["я", "бы", "тут", "остался"]
+        let tokens = ["я", "бы", "тут", "остался"]
             .into_iter()
             .map(str::to_string);
 
         let res: Vec<String> = filter.stop_words(tokens).collect();
-        let expected = vec!["остался"];
+        let expected = ["остался"];
         assert_eq!(res, expected, "stop words for custom lang failed")
     }
 
     #[test]
     fn test_stemming_default() {
         let filter = Filters::default();
-        let tokens = vec!["worked", "working", "works", "works"]
+        let tokens = ["worked", "working", "works", "works"]
             .into_iter()
             .map(str::to_string);
 
         let res: Vec<String> = filter.stemming(tokens).collect();
-        let expected = vec!["work", "work", "work", "work"];
+        let expected = ["work", "work", "work", "work"];
         assert_eq!(res, expected, "stemming failed")
     }
 
     #[test]
     fn test_stemming_custom_lang() {
         let filter = Filters::new(Russian);
-        let tokens = vec!["работал", "работаю", "работает", "работает"]
+        let tokens = ["работал", "работаю", "работает", "работает"]
             .into_iter()
             .map(str::to_string);
 
         let res: Vec<String> = filter.stemming(tokens).collect();
-        let expected = vec!["работа", "работа", "работа", "работа"];
+        let expected = ["работа", "работа", "работа", "работа"];
         assert_eq!(res, expected, "stemming custom lang failed")
     }
 }

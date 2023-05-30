@@ -4,7 +4,7 @@ use inverted_index::analyzer::Analyzer;
 const TEXT: &str = include_str!("war_and_peace.txt");
 
 pub fn analyzer_benchmark(c: &mut Criterion) {
-    let analyzer = Analyzer::new();
+    let analyzer = Analyzer::default();
     c.bench_function("analyze-large-text", |b| b.iter(|| analyzer.analyze(TEXT)));
 }
 

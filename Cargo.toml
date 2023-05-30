@@ -14,3 +14,7 @@ criterion = "0.5.1"
 [[bench]]
 name = "analyzer"
 harness = false
+
+[[bench]]
+name = "index"
+harness = false
