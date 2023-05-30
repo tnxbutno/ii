@@ -1,3 +1,4 @@
+/// `Filters` include stop words, lowercase, and stemming filters.
 use rust_stemmers::{Algorithm, Stemmer};
 use std::borrow::Cow;
 use std::collections::HashSet;
@@ -7,7 +8,7 @@ pub struct Filters {
     stemmer: Stemmer,
 }
 
-/// Available languages for stemming
+/// Available languages for stemming.
 pub enum Language {
     Arabic,
     Danish,
@@ -55,6 +56,7 @@ impl Language {
         }
     }
 
+    /// Get stopwords for a given language.
     fn get_stopwords(&self) -> HashSet<String> {
         use self::Language::*;
         use crate::stopwords;
@@ -85,6 +87,7 @@ impl Language {
     }
 }
 
+/// `Default` assume that a text will be in English.
 impl Default for Filters {
     fn default() -> Self {
         Filters::new(Language::English)
@@ -92,6 +95,7 @@ impl Default for Filters {
 }
 
 impl Filters {
+    /// Creates a `Filter` instance with custom language.
     pub fn new(language: Language) -> Self {
         Filters {
             stop_words_list: language.get_stopwords(),
@@ -99,13 +103,15 @@ impl Filters {
         }
     }
 
-    pub fn lower_case<I>(&self, tokens: I) -> impl Iterator<Item = String>
+    /// Makes all tokens lowercase.
+    pub fn lowercase<I>(&self, tokens: I) -> impl Iterator<Item = String>
     where
         I: Iterator<Item = String>,
     {
         tokens.map(|s| s.to_lowercase())
     }
 
+    /// Removes stop words from tokens.
     pub fn stop_words<I>(&self, tokens: I) -> impl Iterator<Item = String>
     where
         I: Iterator<Item = String>,
@@ -118,6 +124,7 @@ impl Filters {
             .into_iter()
     }
 
+    /// Applies stemming technique to all tokens.
     pub fn stemming<'a, I>(&'a self, tokens: I) -> impl Iterator<Item = String> + 'a
     where
         I: Iterator<Item = String> + 'a,
@@ -141,7 +148,7 @@ mod filters_tests {
             .into_iter()
             .map(str::to_string);
 
-        let res: Vec<String> = filter.lower_case(tokens).collect();
+        let res: Vec<String> = filter.lowercase(tokens).collect();
         let expected = ["hello", "this", "is", "patrick"];
         assert_eq!(res, expected, "lowering case failed");
     }

@@ -1,10 +1,14 @@
+/// The analyzer combines the tokenizer and all filters and applies them to a text.
 use crate::filters::{Filters, Language};
 use crate::tokenizer::Tokenizer;
 
+/// `Analyzer` tokenize and applies filters to a text.
 pub struct Analyzer {
     tokenizer: Tokenizer,
     filters: Filters,
 }
+
+/// `Default` assume that a text will be in English.
 impl Default for Analyzer {
     fn default() -> Self {
         Self::new(Language::English)
@@ -12,6 +16,7 @@ impl Default for Analyzer {
 }
 
 impl Analyzer {
+    /// Creates an analyzer with custom language.
     pub fn new(language: Language) -> Self {
         Analyzer {
             tokenizer: Tokenizer::new(),
@@ -19,9 +24,10 @@ impl Analyzer {
         }
     }
 
+    /// Applies tokenizer, lowercase, stop words, and stemming filters.
     pub fn analyze(&self, text: &str) -> Vec<String> {
         let tokens = self.tokenizer.tokenize(text);
-        let low = self.filters.lower_case(tokens);
+        let low = self.filters.lowercase(tokens);
         let stopped = self.filters.stop_words(low);
         self.filters.stemming(stopped).collect()
     }

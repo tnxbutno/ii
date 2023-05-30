@@ -1,3 +1,5 @@
+/// Tokenizer converts text to tokens using a Unicode Text Segmentation technique.
+/// For more details, see https://www.unicode.org/reports/tr29/
 use unicode_segmentation::UnicodeSegmentation;
 
 pub struct Tokenizer {}
@@ -10,10 +12,10 @@ impl Default for Tokenizer {
 
 impl Tokenizer {
     pub fn new() -> Self {
-        Tokenizer {}
+        Self {}
     }
 
-    /* Converts text to vector of tokens. Tokens are either letter or number */
+    /// Converts text to tokens.
     pub fn tokenize(&self, text: &str) -> impl Iterator<Item = String> {
         text.unicode_words()
             .map(str::to_string)
