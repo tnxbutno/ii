@@ -1,3 +1,5 @@
+use unicode_segmentation::UnicodeSegmentation;
+
 pub struct Tokenizer {}
 
 impl Default for Tokenizer {
@@ -13,10 +15,7 @@ impl Tokenizer {
 
     /* Converts text to vector of tokens. Tokens are either letter or number */
     pub fn tokenize(&self, text: &str) -> impl Iterator<Item = String> {
-        text.chars()
-            .filter(|c| !c.is_ascii_punctuation())
-            .collect::<String>()
-            .split_whitespace()
+        text.unicode_words()
             .map(str::to_string)
             .collect::<Vec<String>>()
             .into_iter()
@@ -33,7 +32,7 @@ mod tokenizer_tests {
         let tokenizer = Tokenizer::new();
         let res: Vec<String> = tokenizer.tokenize(text).collect();
         let expected = [
-            "Hello", "Im", "test", "suite", "I", "contain", "number", "32",
+            "Hello", "I'm", "test", "suite", "I", "contain", "number", "32",
         ];
         assert_eq!(res, expected, "tokenization failed");
     }
