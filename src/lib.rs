@@ -1,5 +1,5 @@
-mod tokenizer;
-mod filters;
-mod stopwords;
 pub mod analyzer;
+mod filters;
 pub mod index;
+mod stopwords;
+mod tokenizer;

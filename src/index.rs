@@ -77,6 +77,7 @@ impl InvertedIndex {
 #[cfg(test)]
 mod index_tests {
     use crate::index::{Document, InvertedIndex};
+    use std::collections::HashSet;
 
     #[test]
     fn add_test() {
@@ -92,7 +93,43 @@ mod index_tests {
             },
         ];
         idx.add(&doc);
+        let number_of_keys = idx.idx.keys().len();
+        assert_eq!(number_of_keys, 9, "adding to index failed");
+    }
+
+    #[test]
+    fn search_on_one_phrase_test() {
+        let mut idx = InvertedIndex::default();
+        let doc = [
+            Document {
+                id: 1,
+                text: "The quick brown fox jumped over the lazy dog".to_string(),
+            },
+            Document {
+                id: 2,
+                text: "Quick brown foxes leap over lazy dogs in summer".to_string(),
+            },
+        ];
+        idx.add(&doc);
         let result = idx.search("dogs in summer");
-        assert_eq!(result.get(&2), Some(&2), "smoke test for index failed");
+        assert_eq!(result.get(&2), Some(&2), "searching on one phrase failed");
+    }
+
+    #[test]
+    fn intersection_search_test() {
+        let mut idx = InvertedIndex::default();
+        let doc = [
+            Document {
+                id: 1,
+                text: "The quick brown fox jumped over the lazy dog".to_string(),
+            },
+            Document {
+                id: 2,
+                text: "Quick brown foxes leap over lazy dogs in summer".to_string(),
+            },
+        ];
+        idx.add(&doc);
+        let result = idx.search("brown foxes");
+        assert_eq!(result, HashSet::from([1, 2]), "intersection search failed");
     }
 }
